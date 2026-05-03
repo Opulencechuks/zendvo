@@ -116,12 +116,6 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
   </tr>
 </table>
 
----
-
-## Thanks to all the contributors who have made this project possible!
-
----
-
 <p align="center">
   <i>Decentralizing the art of surprise on Stellar</i>
 </p>
