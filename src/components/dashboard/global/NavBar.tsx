@@ -4,6 +4,7 @@ import UserProfile from "@/assets/images/user.png";
 import MobileLogo from "../../../assets/images/zendo-logo.png";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { UserAvatarLoader } from "@/components/dashboard/global/UserAvatarLoader";
 
 interface NavBarProps {
   onMenuToggle: () => void;
@@ -59,15 +60,7 @@ export const NavBar = ({ onMenuToggle }: NavBarProps) => {
           <div className="size-8 bg-[#F7F7F8] rounded-full flex items-center justify-center">
             <NotificationIcon />
           </div>
-          <div className="size-8 bg-[#F7F7F8] rounded-full">
-            <Image
-              src={UserProfile}
-              alt="User Profile"
-              width={32}
-              height={32}
-              className="rounded-full object-cover"
-            />
-          </div>
+          <UserAvatarLoader />
         </div>
 
         {}
