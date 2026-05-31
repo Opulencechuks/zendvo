@@ -67,6 +67,50 @@ export async function processGiftTransaction(
   return transactionId;
 }
 
+export interface ProcessGiftBankPayoutParams {
+  senderId: string | null;
+  amount: number;
+  currency: string;
+}
+
+export async function processGiftBankPayout(
+  params: ProcessGiftBankPayoutParams,
+) {
+  const { senderId, amount, currency } = params;
+  const normalizedCurrency = currency.toUpperCase();
+
+  if (!validateCurrency(normalizedCurrency)) {
+    throw new Error("Unsupported currency. Accepted: NGN, USD");
+  }
+
+  const transactionId = `payout_${crypto.randomUUID()}`;
+
+  if (senderId) {
+    const senderWallet = await db.query.wallets.findFirst({
+      where: and(
+        eq(wallets.userId, senderId),
+        eq(wallets.currency, normalizedCurrency),
+      ),
+    });
+
+    if (!senderWallet || senderWallet.balance < amount) {
+      throw new Error("Insufficient balance");
+    }
+
+    await db
+      .update(wallets)
+      .set({
+        balance: sql`${wallets.balance} - ${amount}`,
+        updatedAt: new Date(),
+      })
+      .where(
+        and(eq(wallets.userId, senderId), eq(wallets.currency, normalizedCurrency)),
+      );
+  }
+
+  return transactionId;
+}
+
 export interface ProcessRefundTransactionParams {
   senderId: string | null;
   recipientId: string;

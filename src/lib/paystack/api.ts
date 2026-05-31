@@ -1,3 +1,4 @@
+import crypto from "crypto";
 
 export const paystackConfig = {
   baseUrl: "https://api.paystack.co",
@@ -6,12 +7,32 @@ export const paystackConfig = {
 
 export const verifyBankAccount = async (
   accountNumber: string,
-  bankCode: string
+  bankCode: string,
 ) => {
-  
-  return { status: "mock_verified", name: "Zendvo Recipient" };
+  return {
+    success: true,
+    status: "mock_verified",
+    name: "Zendvo Recipient",
+    accountNumber,
+    bankCode,
+  };
 };
 
+export const initiateBankPayout = async (options: {
+  bankAccountNumber: string;
+  bankCode: string;
+  amount: number;
+  currency: string;
+  recipientName: string;
+}) => {
+  const payoutReference = `payout_${crypto.randomUUID()}`;
+
+  return {
+    success: true,
+    payoutReference,
+    status: "pending",
+  };
+};
 
 export const verifyPayment = async (reference: string) => {
   if (!paystackConfig.secretKey) {
