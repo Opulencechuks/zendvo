@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/Stellar-Soroban-black?style=for-the-badge&logo=stellar" alt="Stellar" />
 </p>
 
-**Zendvo** is a full-stack gifting platform that transforms digital money transfers into memorable experiences. It enables users to send cash gifts that remain completely hidden and locked until a predetermined date and time, powered by Stellar Soroban smart contracts.
+**Zendvo** is an expense, savings and gifting platform that transforms digital money transfers into memorable experiences. It enables users to send cash gifts that remain completely hidden and locked until a predetermined date and time, save for a specific item or date and calculate daily expenses acccurately. 
 
 ## Features
 
