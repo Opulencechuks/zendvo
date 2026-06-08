@@ -124,6 +124,13 @@ MIT — see [LICENSE](./LICENSE).
       <br /><br />
       <a href="https://github.com/Emrys02" target="_blank">GitHub</a>
     </td>
+    <td align="center">
+      <img src="https://github.com/codeze-us.png" alt="codeZe-us" width="150" />
+      <br /><br />
+      <strong>codeZe-us</strong>
+      <br /><br />
+      <a href="https://github.com/codeze-us" target="_blank">GitHub</a>
+    </td>
   </tr>
 </table>
 
