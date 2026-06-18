@@ -172,7 +172,7 @@ export function verifyOTPHash(
   return crypto.timingSafeEqual(Buffer.from(hash), Buffer.from(storedHash));
 }
 
-export async function sendOTP(phoneNumber: string): Promise<{ success: boolean; message: string; error?: string }> {
+export async function sendOTP(phoneNumber: string): Promise<{ success: boolean; message: string; error?: string; detail?: string }> {
   try {
     if (!validateE164PhoneNumber(phoneNumber)) {
       return {

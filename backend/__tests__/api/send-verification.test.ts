@@ -1,9 +1,9 @@
-import { POST } from "../../src/app/api/auth/send-verification/route";
-import { generateOTP, storeOTP } from "../../src/server/services/otpService";
-import { sendVerificationEmail } from "../../src/server/services/emailService";
-import { db } from "../../src/lib/db";
+import { POST } from "@/app/api/auth/send-verification/route";
+import { generateOTP, storeOTP } from "@/server/services/otpService";
+import { sendVerificationEmail } from "@/server/services/emailService";
+import { db } from "@/lib/db";
 
-jest.mock("../../src/server/services/otpService", () => ({
+jest.mock("@/server/services/otpService", () => ({
   generateOTP: jest.fn(),
   storeOTP: jest.fn(),
   checkOTPRequestRateLimitByUserId: jest.fn().mockResolvedValue({
@@ -12,11 +12,11 @@ jest.mock("../../src/server/services/otpService", () => ({
     retryAfterMs: 0,
   }),
 }));
-jest.mock("../../src/server/services/emailService", () => ({
+jest.mock("@/server/services/emailService", () => ({
   sendVerificationEmail: jest.fn(),
 }));
 
-jest.mock("../../src/lib/db", () => ({
+jest.mock("@/lib/db", () => ({
   db: {
     query: {
       users: {

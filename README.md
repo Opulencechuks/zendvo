@@ -21,13 +21,23 @@
 
 ## Stack
 
-- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+### Frontend (`web/`)
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router, React 19)
+- **Styling**: Tailwind CSS 4, Framer Motion
 - **Language**: [TypeScript 5](https://www.typescriptlang.org/)
+
+### Backend (`backend/`)
+- **Server Framework**: Node.js with [Express.js](https://expressjs.com/)
 - **Database**: PostgreSQL with [Drizzle ORM](https://orm.drizzle.team/)
+- **Language**: TypeScript 5
+- **Task Scheduling**: Integrated background cleanup cron jobs
+- **Integrations**: Stripe (Payments), Paystack (NGN bank payouts), Nodemailer (Emails)
+
+### Blockchain
 - **Smart Contracts**: Stellar Soroban (Rust)
-- **Styling**: Tailwind CSS 4
-- **Blockchain**: Stellar SDK, Soroban SDK
-- **Payments**: Stripe, Paystack
+- **SDKs**: Stellar SDK, Soroban SDK
+
+---
 
 ## Stellar Integration
 
@@ -41,42 +51,63 @@ Zendvo uses the Stellar ecosystem for its core financial primitives:
 | Low-fee settlement | Stellar Consensus Protocol (SCP) |
 | On/off-ramp | Anchor-compatible deposit/withdrawal |
 
+> [!NOTE]
 > Stellar does not have native proof-of-stake staking. Yield on savings is earned through liquidity provision in Stellar's built-in AMM or via the Blend Protocol lending market — both non-custodial and on-chain.
 
+---
+
 ## Quick Start
+
+This project is set up as an **NPM Workspaces Monorepo**. Dependencies are hoisted and both servers can be run concurrently.
 
 1. **Clone and prepare**:
    ```bash
    git clone https://github.com/codeze-us/zendvo.git
    cd zendvo
-   cp .env.example .env
+   # Copy and configure environment variables in the backend folder
+   cp backend/.env.example backend/.env
    ```
 
-2. **Install dependencies**:
+2. **Install dependencies** (installs and hoists packages for both workspaces):
    ```bash
    npm install
    ```
 
-3. **Database setup**:
+3. **Database setup** (runs Drizzle Kit from the backend workspace):
    ```bash
    npm run db:push
    ```
 
-4. **Run in development**:
+4. **Run in development** (starts Next.js on port `3000` and Express on port `5000` concurrently):
    ```bash
    npm run dev
    ```
 
+---
+
 ## Project Structure
 
-```
-src/
-├── app/                  # Next.js App Router (pages & API routes)
-├── server/               # Backend business logic & services
-├── components/           # Modular UI component library
-├── lib/                  # Blockchain & payment integrations
-├── types/                # Global TypeScript definitions
-└── styles/               # Design system & styling
+```text
+web/                      # Frontend Workspace (Next.js client)
+├── src/
+│   ├── app/              # UI Pages and layouts (pure client routes)
+│   ├── components/       # Modular UI React components
+│   ├── context/          # Client state & Auth contexts
+│   ├── hooks/            # Client React hooks
+│   ├── services/         # api.ts fetch client configuration
+│   └── lib/              # Client-only utility functions
+│
+backend/                  # Backend Workspace (Express, DB, Jobs)
+├── src/
+│   ├── api/              # API endpoints (migrated Next route handlers)
+│   ├── server/           # Business services, cron jobs & audit logging
+│   ├── lib/              # Drizzle DB setup, validations, token signing
+│   ├── adapter.ts        # Express-to-Next standard Request/Response adapter
+│   ├── routes.ts         # Express routes mapping
+│   └── server.ts         # Express server entry point
+├── migrations/           # Raw SQL database migrations
+├── drizzle/              # Drizzle Kit schema metadata
+└── __tests__/            # Centralized test suites (Jest/ts-jest)
 ```
 
 ## Documentation

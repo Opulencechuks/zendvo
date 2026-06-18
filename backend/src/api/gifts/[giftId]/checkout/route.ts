@@ -53,7 +53,7 @@ export async function POST(
 
     const baseUrl =
       process.env.NEXT_PUBLIC_APP_URL ||
-      `${request.nextUrl.protocol}
+      `${request.nextUrl.protocol}//${request.headers.get("host")}`;
 
     const { sessionId, url } = await initiateStripeCheckout({
       giftId,

@@ -46,7 +46,7 @@ export function makeExpressHandler(nextHandler: Function) {
       res.status(webRes.status);
       
       // Copy headers from webRes to Express res
-      webRes.headers.forEach((value, key) => {
+      webRes.headers.forEach((value: string, key: string) => {
         if (key.toLowerCase() !== "content-encoding") {
           res.setHeader(key, value);
         }

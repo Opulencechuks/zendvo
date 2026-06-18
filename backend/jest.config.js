@@ -7,12 +7,13 @@ const tsJestTransformCfg = createDefaultPreset().transform;
 module.exports = {
   testEnvironment: "node",
   transform: {
-    ...tsJestTransformCfg,
+    "^.+\\.tsx?$": ["ts-jest", { isolatedModules: true }],
   },
   transformIgnorePatterns: [
     "node_modules/(?!(nanoid)/)",
   ],
   moduleNameMapper: {
+    "^@/app/api/(.*)$": "<rootDir>/src/api/$1",
     "^@/(.*)$": "<rootDir>/src/$1",
     "^@prisma/client$": "<rootDir>/src/lib/prisma-client-mock.ts",
   },

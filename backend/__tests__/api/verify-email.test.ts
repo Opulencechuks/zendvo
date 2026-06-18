@@ -1,7 +1,7 @@
-import { POST } from "../../src/app/api/auth/verify-email/route";
-import { verifyOTP } from "../../src/server/services/otpService";
+import { POST } from "@/app/api/auth/verify-email/route";
+import { verifyOTP } from "@/server/services/otpService";
 
-jest.mock("../../src/server/services/otpService", () => ({
+jest.mock("@/server/services/otpService", () => ({
   verifyOTP: jest.fn(),
 }));
 

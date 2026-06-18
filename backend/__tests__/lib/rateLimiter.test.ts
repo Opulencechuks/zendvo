@@ -3,18 +3,6 @@ import {
   getRateLimitStatusForKey,
   isRateLimited,
 } from "@/lib/rate-limiter";
-import { middleware } from "@/middleware";
-import { NextRequest } from "next/server";
-
-const mockVerifyAccessToken = jest.fn();
-
-jest.mock("@/lib/tokens", () => ({
-  verifyAccessToken: (...args: unknown[]) => mockVerifyAccessToken(...args),
-  verifyAccessTokenDetailed: jest.fn().mockResolvedValue({
-    valid: false,
-    expired: false,
-  }),
-}));
 
 describe("rate-limiter utility", () => {
   it("should consume and track remaining quota", () => {
@@ -49,37 +37,5 @@ describe("rate-limiter utility", () => {
     const key = "rl-bool:1";
     expect(isRateLimited(key, 1, 100_000)).toBe(false);
     expect(isRateLimited(key, 1, 100_000)).toBe(true);
-  });
-});
-
-describe("middleware /api/auth header injection", () => {
-  it("sets X-RateLimit-Remaining and related headers for /api/auth paths", async () => {
-    const request = new NextRequest("http://localhost/api/auth/login");
-    const response = await middleware(request);
-
-    expect(response.headers.get("x-ratelimit-remaining")).toBe("99");
-    expect(response.headers.get("x-ratelimit-limit")).toBe("100");
-    expect(response.headers.get("x-ratelimit-reset")).toBeDefined();
-  });
-
-  it("sets X-Account-Type for protected API requests with a Sender token", async () => {
-    mockVerifyAccessToken.mockResolvedValueOnce({
-      userId: "sender-123",
-      email: "sender@example.com",
-      role: "Sender",
-    });
-
-    const request = new NextRequest("http://localhost/api/user", {
-      headers: {
-        Authorization: "Bearer test-access-token",
-      },
-    });
-
-    const response = await middleware(request);
-
-    expect(response.status).toBe(200);
-    expect(response.headers.get("x-middleware-request-x-account-type")).toBe(
-      "Sender",
-    );
   });
 });
